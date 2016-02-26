@@ -108,6 +108,37 @@
                 </div>
             </div>
         </div>
+        <div class="modal fade" id="login-modalWishList" tabindex="-1" role="dialog" aria-labelledby="WishList" aria-hidden="true">
+            <div class="modal-dialog modal-sm">
+
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="Login">Customer login</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form action="/loginforwishlist" method="post">
+                            <div class="form-group">
+                                <input type="text" name="account" class="form-control" id="account-modal" placeholder="account">
+                            </div>
+                            <div class="form-group">
+                                <input type="password" name="password" class="form-control" id="password-modal" placeholder="password">
+                            </div>
+
+                            <p class="text-center">
+                                <button class="btn btn-primary"><i class="fa fa-sign-in"></i> Log in</button>
+                            </p>
+
+
+                        </form>
+
+                        <p class="text-center text-muted">Not registered yet?</p>
+                        <p class="text-center text-muted"><a href="/register"><strong>Register now</strong></a>! It is easy and done in 1&nbsp;minute and gives you access to special discounts and much more!</p>
+
+                    </div>
+                </div>
+            </div>
+        </div>
 
     </div>
 
@@ -136,6 +167,7 @@
                     <a class="btn btn-default navbar-toggle" href="/basket">
                         <i class="fa fa-shopping-cart"></i>  <span class="hidden-xs">3 items in cart</span>
                     </a>
+
                 </div>
             </div>
             <!--/.navbar-header -->
@@ -194,12 +226,26 @@
             <!--/.nav-collapse -->
 
             <div class="navbar-buttons">
+               <div>
+                <div class="navbar-collapse collapse right" id="WishListw">
+                   <a href="#" data-toggle="modal" data-target="#login-modalWishList"  class="btn btn-primary navbar-btn">WishList</span></a>
+                </div>
+
+               </div>
+                <!--/.nav-collapse -->
+
 
                 <div class="navbar-collapse collapse right" id="basket-overview">
                     <a href="basket.html" class="btn btn-primary navbar-btn"><i class="fa fa-shopping-cart"></i><span class="hidden-sm">3 items in cart</span></a>
                 </div>
                 <!--/.nav-collapse -->
 
+                <div>
+                <div class="navbar-collapse collapse right" id="Myacount">
+                    <a href="#" data-toggle="modal" data-target="#login-modal"  class="btn btn-primary navbar-btn">Myacount</span></a>
+               </div>
+               </div>
+                <!--/.nav-collapse -->
                 <div class="navbar-collapse collapse right" id="search-not-mobile">
                     <button type="button" class="btn navbar-btn btn-primary" data-toggle="collapse" data-target="#search">
                         <span class="sr-only">Toggle search</span>

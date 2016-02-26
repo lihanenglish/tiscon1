@@ -46,12 +46,18 @@
                             <@spring.bind "accountRegisterForm.password"/>
                             <#assign error><#if spring.status.error> has-error</#if></#assign>
 
-                            <div class="form-group${error}">
+                                      <div class="form-group${error}">
 
-                                <label for="password">Password</label>
-                                <input type="password" class="form-control" id="password" name="password" value="${spring.stringStatusValue}">
-                                <@spring.showErrors "<br/>", "help-block"/>
-                            </div>
+                                          <label for="password">Password</label>
+                                          <input type="password" class="form-control" id="password" name="password" value="${spring.stringStatusValue}">
+                                          <@spring.showErrors "<br/>", "help-block"/>
+
+                                     </div>
+                                     <div class="form-group">
+                                            <label for="password_2">Retype new password</label>
+                                            <input type="password" class="form-control" id="password_2">
+                                    </div>>
+
                             <div class="text-center">
                                 <button type="submit" class="btn btn-primary"><i class="fa fa-user-md"></i> Register</button>
                             </div>

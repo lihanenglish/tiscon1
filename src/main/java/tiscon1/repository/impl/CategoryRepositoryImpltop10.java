@@ -5,10 +5,10 @@ import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import tiscon1.exception.SystemException;
-import tiscon1.model.Item;
-import tiscon1.model.Movie;
-import tiscon1.model.Music;
-import tiscon1.repository.CategoryRepository;
+import tiscon1.model.modeltop10.Itemtop10;
+import tiscon1.model.modeltop10.Movietop10;
+import tiscon1.model.modeltop10.Musictop10;
+import tiscon1.model.modeltop10.CategoryRepositorytop10;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -17,17 +17,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+
 /**
  * @author fujiwara
  */
 @Component
-public class CategoryRepositoryImpl implements CategoryRepository {
+public class CategoryRepositoryImpltop10 implements CategoryRepositorytop10 {
     /**
      * 検索用APIアドレス
      */
     public static final String MOVIE_ID = "33";
     public static final String MUSIC_ID = "34";
-    static final String SEARCH_URL = "https://itunes.apple.com/jp/rss/top{genreName}/limit=20/genre={subgenreId}/json";
+    static final String SEARCH_URL = "https://itunes.apple.com/jp/rss/top{genreName}/limit=10/genre={subgenreId}/json";
     static final String LOOKUP_ID_URL = "https://itunes.apple.com/lookup?country=JP&id={id}";
 
     /**
@@ -42,6 +43,7 @@ public class CategoryRepositoryImpl implements CategoryRepository {
         factory.setProxy(new Proxy(Proxy.Type.HTTP, new InetSocketAddress(host, portNo)));
 
         return new RestTemplate(factory);
+
     }
 
     private String getGenreName(String genreId) {
@@ -55,7 +57,7 @@ public class CategoryRepositoryImpl implements CategoryRepository {
     }
 
     @Override
-    public List<Item> findTop10(String genreId, String subgenreId) throws IOException {
+    public List<Itemtop10> findTop10(String genreId, String subgenreId) throws IOException {
         // プロキシ設定が不要の場合
         RestTemplate rest = new RestTemplate();
         // プロキシ設定が必要の場合
@@ -66,15 +68,15 @@ public class CategoryRepositoryImpl implements CategoryRepository {
         Map<String, Object> top10Map = (Map<String, Object>) mapper.readValue(jsonString, Map.class).get("feed");
         List<Map<String, Object>> top10List = (List<Map<String, Object>>) top10Map.get("entry");
 
-        List<Item> top10 = new ArrayList<Item>();
+        List<Itemtop10> top10 = new ArrayList<Itemtop10>();
         for (Map<String, Object> map : top10List) {
             Map<String, Map<String, Object>> mapId = (Map<String, Map<String, Object>>) map.get("id");
-            top10.add(searchItem(genreId, (String) mapId.get("attributes").get("im:id")));
+            top10.add(searchItemtop10(genreId, (String) mapId.get("attributes").get("im:id")));
         }
         return top10;
     }
 
-    public Item searchItem(String genreId, String id) throws IOException {
+    public Itemtop10 searchItemtop10(String genreId, String id) throws IOException {
         // プロキシ設定が不要の場合
         RestTemplate rest = new RestTemplate();
         // プロキシ設定が必要の場合
@@ -89,27 +91,27 @@ public class CategoryRepositoryImpl implements CategoryRepository {
         imageUrl = imageUrl.replaceAll("100x100bb.jpg", "400x400bb.jpg");
 
         if (genreId.equals(MOVIE_ID)) {
-            Movie movie = new Movie();
-            movie.setId(id);
-            movie.setTitle((String) mapItem.get("trackName"));
-            movie.setImage(imageUrl);
-            movie.setSummary((String) mapItem.get("longDescription"));
+            Movietop10 movietop10 = new Movietop10();
+            movietop10.setId(id);
+            movietop10.setTitle((String) mapItem.get("trackName"));
+            movietop10.setImage(imageUrl);
+            movietop10.setSummary((String) mapItem.get("longDescription"));
             Double price = (Double) mapItem.get("collectionPrice");
-            movie.setPrice(String.valueOf(price.intValue()));
-            movie.setGenre((String) mapItem.get("primaryGenreName"));
-            movie.setReleaseDate((String) mapItem.get("releaseDate"));
-            return movie;
+            movietop10.setPrice(String.valueOf(price.intValue()));
+            movietop10.setGenre((String) mapItem.get("primaryGenreName"));
+            movietop10.setReleaseDate((String) mapItem.get("releaseDate"));
+            return movietop10;
         } else if (genreId.equals(MUSIC_ID)) {
-            Music music = new Music();
-            music.setId(id);
-            music.setTitle((String) mapItem.get("trackName"));
-            music.setImage(imageUrl);
-            music.setArtist((String) mapItem.get("artistName"));
+            Musictop10 musictop10 = new Musictop10();
+            musictop10.setId(id);
+            musictop10.setTitle((String) mapItem.get("trackName"));
+            musictop10.setImage(imageUrl);
+            musictop10.setArtist((String) mapItem.get("artistName"));
             Double price = (Double) mapItem.get("trackPrice");
-            music.setPrice(String.valueOf(price.intValue()));
-            music.setGenre((String) mapItem.get("primaryGenreName"));
-            music.setReleaseDate((String) mapItem.get("releaseDate"));
-            return music;
+            musictop10.setPrice(String.valueOf(price.intValue()));
+            musictop10.setGenre((String) mapItem.get("primaryGenreName"));
+            musictop10.setReleaseDate((String) mapItem.get("releaseDate"));
+            return musictop10;
         } else {
             throw new SystemException();
         }

@@ -17,6 +17,7 @@ import tiscon1.form.AccountRegisterForm;
 import tiscon1.form.LoginForm;
 import tiscon1.model.Customer;
 import tiscon1.model.UserPrincipal;
+import tiscon1.model.modeltop10.CategoryRepositorytop10;
 import tiscon1.repository.CustomerRepository;
 
 import javax.servlet.http.HttpSession;
@@ -28,7 +29,8 @@ import javax.servlet.http.HttpSession;
 public class AccountController {
     @Autowired
     CustomerRepository customerRepository;
-
+    @Autowired
+    CategoryRepositorytop10 categoryRepositorytop10;
     @ModelAttribute
     AccountRegisterForm setupForm() {
         return new AccountRegisterForm();
@@ -45,6 +47,22 @@ public class AccountController {
         if (customer != null) {
             session.setAttribute("principal", new UserPrincipal(customer.getName()));
             return "redirect:/my/account?id=" + customer.getId();
+        } else {
+            return "newAccountOrSignIn";
+        }
+    }
+
+    @RequestMapping(value="/loginforwishlist")
+    public String loginforwishlist(@Validated LoginForm form, BindingResult bindingResult, HttpSession session) {
+        Customer customer = customerRepository.findOne(Specifications
+                .where((Specification<Customer>) (root, query, cb) ->
+                        cb.equal(root.get("name"), form.getAccount()))
+                .and((root, query, cb) ->
+                        cb.equal(root.get("password"), form.getPassword())
+                ));
+        if (customer != null) {
+            session.setAttribute("principal", new UserPrincipal(customer.getName()));
+            return "redirect:/my/wishlist?id=" + customer.getId();
         } else {
             return "newAccountOrSignIn";
         }
@@ -128,6 +146,22 @@ public class AccountController {
             BeanUtils.copyProperties(customer, accountForm);
             model.addAttribute("accountForm", accountForm);
             return "customerWishlist";
+        } else {
+            return "error";
+        }
+    }
+
+    @RequestMapping("/my/basket")
+    public String showbasket(@RequestParam("id") Long customerId,
+                               @ModelAttribute("principal") UserPrincipal principal,
+                               Model model) {
+        if (customerRepository.exists(customerId)) {
+            Customer customer = customerRepository.findOne(customerId);
+            model.addAttribute("customer", customer);
+            AccountForm accountForm = new AccountForm();
+            BeanUtils.copyProperties(customer, accountForm);
+            model.addAttribute("accountForm", accountForm);
+            return "basket.html";
         } else {
             return "error";
         }

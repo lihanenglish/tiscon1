@@ -88,8 +88,8 @@
                                 <p class="price">￥${item.price}</p>
 
                                 <p class="text-center buttons">
-                                    <a href="basket" class="btn btn-primary"><i class="fa fa-shopping-cart"></i> Add to cart</a>
-                                    <a href="basket" class="btn btn-default"><i class="fa fa-heart"></i> Add to wishlist</a>
+                                    <a href="#" class="btn btn-primary" id=" Add to cart"><i class="fa fa-shopping-cart"></i> Add to cart</a>
+                                    <a href="#" class="btn btn-default" id=" Add to wishlist"><i class="fa fa-heart"></i> Add to wishlist</a>
                                 </p>
                             </div>
                         </div>

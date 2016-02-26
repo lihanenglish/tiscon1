@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import tiscon1.exception.SystemException;
 import tiscon1.repository.CategoryRepository;
 import tiscon1.repository.GenreRepository;
+import tiscon1.model.modeltop10.CategoryRepositorytop10;
 
 /**
  * @author fujiwara
@@ -17,6 +18,8 @@ import tiscon1.repository.GenreRepository;
 public class CategoryController {
     @Autowired
     CategoryRepository categoryRepository;
+    @Autowired
+    CategoryRepositorytop10 categoryRepositorytop10;
     @Autowired
     GenreRepository genreRepository;
 
@@ -29,6 +32,11 @@ public class CategoryController {
 
         try {
             model.addAttribute("ranking", categoryRepository.findTop10(genreId, subgenreId));
+        } catch (Exception e) {
+            throw new SystemException();
+        }
+        try {
+            model.addAttribute("ranking", categoryRepositorytop10.findTop10(genreId, subgenreId));
         } catch (Exception e) {
             throw new SystemException();
         }

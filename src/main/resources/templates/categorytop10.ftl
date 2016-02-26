@@ -94,37 +94,37 @@
                         </#if>
                         <p>上位商品の数を選択してください。</p>
                          <form>
-                           <input href="/categorytop10.ftl" type="radio" name="No" value="10" /> 10
+                           <input type="radio" name="No" value="10" /> 10
                             <br />
-                            <input href="/category.ftl" type="radio" name="No" value="20" /> 20
+                            <input type="radio" name="No" value="20" /> 20
                          </form>
                     </div>
                    <!-- <#assign y = request.getParameterValues("No") /> -->
                     <div class="row products">
 
-                        <#list ranking as item>
+                        <#list ranking as itemtop10>
                         <div class="col-md-4 col-sm-6">
                             <div class="product">
                                 <div class="flip-container">
                                     <div align="center">
-                                        <p><h3>${item?counter}位</h3></p>
+                                        <p><h3>${itemtop10?counter}位</h3></p>
                                         <div>
                                             <div>
-                                                <a href="/detail?genreId=${genreId}&subgenreId=${subgenreId}&itemId=${item.id}">
-                                                    <img src=${item.image} alt=${item.title?html} class="img-responsive img-category-list">
+                                                <a href="/detail?genreId=${genreId}&subgenreId=${subgenreId}&itemId=${itemtop10.id}">
+                                                    <img src=${itemtop10.image} alt=${itemtop10.title?html} class="img-responsive img-category-list">
                                                 </a>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <a href="/detail?genreId=${genreId}&subgenreId=${subgenreId}&itemId=${item.id}" class="invisible">
-                                    <img src=${item.image} alt=${item.title?html} class="img-responsive img-category-list">
+                                <a href="/detail?genreId=${genreId}&subgenreId=${subgenreId}&itemId=${itemtop10.id}" class="invisible">
+                                    <img src=${itemtop10.image} alt=${itemtop10.title?html} class="img-responsive img-category-list">
                                 </a>
                                 <div class="text">
-                                    <h3 class="text-category-list-title"><a href="/detail?genreId=${genreId}&subgenreId=${subgenreId}&itemId=${item.id}">${item.title}</a></h3>
-                                    <p class="price">￥${item.price}</p>
+                                    <h3 class="text-category-list-title"><a href="/detail?genreId=${genreId}&subgenreId=${subgenreId}&itemId=${itemtop10.id}">${itemtop10.title}</a></h3>
+                                    <p class="price">￥${itemtop10.price}</p>
                                     <p class="buttons">
-                                        <a href="/detail?genreId=${genreId}&subgenreId=${subgenreId}&itemId=${item.id}" class="btn btn-default">View detail</a>
+                                        <a href="/detail?genreId=${genreId}&subgenreId=${subgenreId}&itemId=${itemtop10.id}" class="btn btn-default">View detail</a>
                                         <a href="basket.html" class="btn btn-primary"><i class="fa fa-shopping-cart"></i>Add to cart</a>
                                     </p>
                                 </div>
